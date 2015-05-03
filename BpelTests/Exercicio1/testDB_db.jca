@@ -1,0 +1,14 @@
+<adapter-config name="testDB" adapter="Database Adapter" wsdlLocation="testDB.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="jdbc/usuarioSOA" UIConnectionName="usuarioSOA" adapterRef=""/>
+  <endpoint-interaction portType="testDB_ptt" operation="testDBSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="testDB.Testemsg"/>
+      <property name="QueryName" value="testDBSelect"/>
+      <property name="MappingsMetaDataURL" value="testDB-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

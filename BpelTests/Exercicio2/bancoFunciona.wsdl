@@ -1,0 +1,25 @@
+<?binding.jca bancoFunciona_db.jca?>
+<wsdl:definitions name="bancoFunciona" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio2/bancoFunciona" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio2/bancoFunciona" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/bancoFunciona">
+    <plt:partnerLinkType name="bancoFunciona_plt">
+        <plt:role name="bancoFunciona_role">
+            <plt:portType name="tns:bancoFunciona_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/bancoFunciona" schemaLocation="xsd/bancoFunciona_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="bancoFuncionaSelect_inputParameters">
+        <wsdl:part name="bancoFuncionaSelect_inputParameters" element="top:bancoFuncionaSelectInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="TbBuscarTesteCollection_msg">
+        <wsdl:part name="TbBuscarTesteCollection" element="top:TbBuscarTesteCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="bancoFunciona_ptt">
+        <wsdl:operation name="bancoFuncionaSelect">
+            <wsdl:input message="tns:bancoFuncionaSelect_inputParameters"/>
+            <wsdl:output message="tns:TbBuscarTesteCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

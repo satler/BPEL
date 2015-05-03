@@ -1,0 +1,14 @@
+<adapter-config name="bancoFunciona" adapter="Database Adapter" wsdlLocation="bancoFunciona.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/usuarioSOA" UIConnectionName="usuarioSOA" adapterRef=""/>
+  <endpoint-interaction portType="bancoFunciona_ptt" operation="bancoFuncionaSelect">
+    <interaction-spec className="oracle.tip.adapter.db.DBReadInteractionSpec">
+      <property name="DescriptorName" value="bancoFunciona.TbBuscarTeste"/>
+      <property name="QueryName" value="bancoFuncionaSelect"/>
+      <property name="MappingsMetaDataURL" value="bancoFunciona-or-mappings.xml"/>
+      <property name="ReturnSingleResultSet" value="false"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

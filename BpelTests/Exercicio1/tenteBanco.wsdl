@@ -1,0 +1,25 @@
+<?binding.jca tenteBanco_db.jca?>
+<wsdl:definitions name="tenteBanco" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio1/tenteBanco" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/tenteBanco" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio1/tenteBanco" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="tenteBanco_plt">
+        <plt:role name="tenteBanco_role">
+            <plt:portType name="tns:tenteBanco_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/tenteBanco" schemaLocation="xsd/tenteBanco.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="tenteBancoInput_msg">
+        <wsdl:part name="tenteBancoInput_msg" element="db:tenteBancoInput"/>
+    </wsdl:message>
+    <wsdl:message name="tenteBancoOutputCollection_msg">
+        <wsdl:part name="tenteBancoOutputCollection" element="db:tenteBancoOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="tenteBanco_ptt">
+        <wsdl:operation name="tenteBanco">
+            <wsdl:input message="tns:tenteBancoInput_msg"/>
+            <wsdl:output message="tns:tenteBancoOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

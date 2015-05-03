@@ -1,0 +1,15 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+   <entry key="TB_BUSCAR_TESTE:db_column_1">NOME</entry>
+   <entry key="TB_BUSCAR_TESTE.ID:db_column_type">NUMBER</entry>
+   <entry key="TB_BUSCAR_TESTE:db_column_0">ID</entry>
+   <entry key="TB_BUSCAR_TESTE.NOME:db_column_type">VARCHAR2</entry>
+   <entry key="TB_BUSCAR_TESTE.ID:db_column_not_null">true</entry>
+   <entry key="TB_BUSCAR_TESTE.NOME:db_column_size">250</entry>
+   <entry key="TB_BUSCAR_TESTE.NOME:db_column_not_null">false</entry>
+   <entry key="return_single_result_set">false</entry>
+   <entry key="TB_BUSCAR_TESTE:db_table_type">TABLE</entry>
+   <entry key="root_descriptor_alias">TB_BUSCAR_TESTE</entry>
+   <entry key="TB_BUSCAR_TESTE.ID:db_column_precision">0</entry>
+</properties>

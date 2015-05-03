@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process name="BPELtesteA" targetNamespace="http://xmlns.oracle.com/BpelTests/Exercicio2/BPELtesteA" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:client="http://xmlns.oracle.com/BpelTests/Exercicio2/BPELtesteA" xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpelx="http://schemas.oracle.com/bpel/extension" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio2/banco" xmlns:bpel2="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/top/banco" xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20" xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc" xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath" xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk" xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions" xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="http://ws.cdyne.com/WeatherWS/" id="BpPrc0">
+
+
+    <bpelx:exec import="com.bpel.libos.*" id="BxExe0"/>
+    <bpelx:exec import="org.w3c.dom.*" id="BxExe1"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="bpeltestea_client" partnerLinkType="client:BPELtesteA" myRole="BPELtesteAProvider" partnerRole="BPELtesteARequester"/>
+        <partnerLink name="banco" partnerLinkType="ns1:banco_plt" partnerRole="banco_role"/>
+        <partnerLink name="tempoService" partnerLinkType="ns3:tempoService" myRole="WeatherHttpGet" partnerRole="WeatherSoap"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:BPELtesteARequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:BPELtesteAResponseMessage"/>
+        <variable name="Invoke1_bancoSelect_InputVariable" messageType="ns1:bancoSelect_inputParameters"/>
+        <variable name="Invoke1_bancoSelect_OutputVariable" messageType="ns1:TbBuscarTesteCollection_msg"/>
+        <variable name="Invoke2_GetCityWeatherByZIP_OutputVariable" messageType="ns3:GetCityWeatherByZIPSoapOut"/>
+        <variable name="Invoke2_GetCityWeatherByZIP_InputVariable" messageType="ns3:GetCityWeatherByZIPSoapIn"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main" id="BpSeq0">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in BPELtesteA.wsdl) -->
+        <receive name="receiveInput" partnerLink="bpeltestea_client" portType="client:BPELtesteA" operation="process" variable="inputVariable" createInstance="yes" id="BpRcv0"/>
+        <invoke name="Invoke1" bpelx:invokeAsDetail="no" inputVariable="Invoke1_bancoSelect_InputVariable" outputVariable="Invoke1_bancoSelect_OutputVariable" partnerLink="banco" portType="ns1:banco_ptt" operation="bancoSelect" id="BpInv0"/>
+        <assign name="Transform1" id="BpAss0">
+            <bpelx:annotation>
+                <bpelx:pattern>transformation</bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+                <from expression="ora:doXSLTransformForDoc('xsl/Transformation_1.xsl', $Invoke1_bancoSelect_OutputVariable.TbBuscarTesteCollection)"/>
+                <to variable="outputVariable" part="payload"/>
+            </copy>
+        </assign>
+        <assign name="Assign1" id="BpAss1">
+            <copy>
+                <from expression="concat('Funciona? ',bpws:getVariableData('outputVariable','payload','/client:processResponse/client:result'))"/>
+                <to variable="outputVariable" part="payload" query="/client:processResponse/client:result"/>
+            </copy>
+            <copy>
+                <from variable="inputVariable" part="payload" query="/client:process/client:input"/>
+                <to variable="Invoke2_GetCityWeatherByZIP_InputVariable" part="parameters" query="/ns3:GetCityWeatherByZIP/ns3:ZIP"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke2" inputVariable="Invoke2_GetCityWeatherByZIP_InputVariable" outputVariable="Invoke2_GetCityWeatherByZIP_OutputVariable" partnerLink="tempoService" portType="ns3:WeatherSoap" operation="GetCityWeatherByZIP" bpelx:invokeAsDetail="no" id="BpInv1"/>
+        <assign name="Assign2" id="BpAss2">
+            <copy>
+                <from expression="concat(bpws:getVariableData('outputVariable','payload','/client:processResponse/client:result'), ' - russan - ', bpws:getVariableData('Invoke2_GetCityWeatherByZIP_OutputVariable','parameters','/ns3:GetCityWeatherByZIPResponse/ns3:GetCityWeatherByZIPResult/ns3:City'))"/>
+                <to variable="outputVariable" part="payload" query="/client:processResponse/client:result"/>
+            </copy>
+        </assign>
+        <bpelx:exec name="Java_Embedding1" version="1.5" language="java" id="BxExe2">
+            <![CDATA[try{
+    
+  /*  Element outputTemplate = (Element)getVariableData("outputVariable", "payload");            
+    NodeList directory = outputTemplate.getElementsByTagName("client:processResponse");
+
+    String node = directory.item(0).getChildNodes().item(0).getNodeValue();
+*/
+
+    Element vapo = (Element)getVariableData("outputVariable","payload","/client:processResponse/client:result"); 
+    String res = vapo.getTextContent()+" E BPEL eh lindo! "; 
+
+    setVariableData("outputVariable","payload","/client:processResponse/client:result",res);
+    
+    Functions fun = new Functions();
+    fun.executarStringParameters("Gravando um arquivo parametrizado ->  "+res);
+    
+}catch(Exception e){
+    Functions fun = new Functions();
+    fun.executarStringParameters("nao funcionou ->  "+e.toString());
+}]]>
+        </bpelx:exec>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="bpeltestea_client" portType="client:BPELtesteACallback" operation="processResponse" inputVariable="outputVariable" bpelx:invokeAsDetail="no" id="BpInv2"/>
+    </sequence>
+</process><!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Apr 16 14:56:10 PDT 2015
+  Author:  oracle
+  Type: BPEL 1.1 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->

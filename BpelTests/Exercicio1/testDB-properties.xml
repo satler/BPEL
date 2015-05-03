@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+   <entry key="TESTEMSG.ID:db_column_type">NUMBER</entry>
+   <entry key="TESTEMSG.MENSAGEM:db_column_size">350</entry>
+   <entry key="TESTEMSG:db_table_type">TABLE</entry>
+   <entry key="TESTEMSG:db_column_1">MENSAGEM</entry>
+   <entry key="TESTEMSG:db_column_0">ID</entry>
+   <entry key="TESTEMSG.ID:db_column_not_null">true</entry>
+   <entry key="TESTEMSG.MENSAGEM:db_column_not_null">true</entry>
+   <entry key="TESTEMSG.ID:db_column_scale">0</entry>
+   <entry key="return_single_result_set">false</entry>
+   <entry key="TESTEMSG.ID:db_column_precision">5</entry>
+   <entry key="TESTEMSG.MENSAGEM:db_column_type">VARCHAR2</entry>
+   <entry key="root_descriptor_alias">TESTEMSG</entry>
+</properties>

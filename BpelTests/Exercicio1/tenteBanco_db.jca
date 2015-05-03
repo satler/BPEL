@@ -1,0 +1,13 @@
+<adapter-config name="tenteBanco" adapter="Database Adapter" wsdlLocation="tenteBanco.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/usuarioSOA" UIConnectionName="usuarioSOA" adapterRef=""/>
+  <endpoint-interaction portType="tenteBanco_ptt" operation="tenteBanco">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="select mensagem from testemsg where id = 1"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

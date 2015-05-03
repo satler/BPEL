@@ -1,0 +1,25 @@
+<?binding.jca testDB_db.jca?>
+<wsdl:definitions name="testDB" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio1/testDB" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio1/testDB" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/testDB">
+    <plt:partnerLinkType name="testDB_plt">
+        <plt:role name="testDB_role">
+            <plt:portType name="tns:testDB_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/testDB" schemaLocation="xsd/testDB_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="testDBSelect_inputParameters">
+        <wsdl:part name="testDBSelect_inputParameters" element="top:testDBSelectInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="TestemsgCollection_msg">
+        <wsdl:part name="TestemsgCollection" element="top:TestemsgCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="testDB_ptt">
+        <wsdl:operation name="testDBSelect">
+            <wsdl:input message="tns:testDBSelect_inputParameters"/>
+            <wsdl:output message="tns:TestemsgCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,25 @@
+<?binding.jca banco_db.jca?>
+<wsdl:definitions name="banco" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio2/banco" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BpelTests/Exercicio2/banco" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/banco">
+    <plt:partnerLinkType name="banco_plt">
+        <plt:role name="banco_role">
+            <plt:portType name="tns:banco_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/banco" schemaLocation="xsd/banco_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="bancoSelect_inputParameters">
+        <wsdl:part name="bancoSelect_inputParameters" element="top:bancoSelectInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="TbBuscarTesteCollection_msg">
+        <wsdl:part name="TbBuscarTesteCollection" element="top:TbBuscarTesteCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="banco_ptt">
+        <wsdl:operation name="bancoSelect">
+            <wsdl:input message="tns:bancoSelect_inputParameters"/>
+            <wsdl:output message="tns:TbBuscarTesteCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

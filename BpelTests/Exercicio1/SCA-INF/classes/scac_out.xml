@@ -1,0 +1,43 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc>/ns:composite/ns:component[@name='HT1/TaskService']</loc>
+      <line/>
+      <col/>
+      <file>/home/oracle/jdeveloper/mywork/BpelTests/Exercicio1/composite.xml</file>
+      <name>/home/oracle/jdeveloper/mywork/BpelTests/Exercicio1/composite.xml</name>
+      <fix/>
+      <msg>The service "TaskService" exposed by component "HT1" is not wired to/used by any other component.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line/>
+      <col/>
+      <file>HT1.task</file>
+      <name>HT1.task</name>
+      <fix/>
+      <msg>Task owner not specified</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line/>
+      <col/>
+      <file>HT1.task</file>
+      <name>HT1.task</name>
+      <fix/>
+      <msg>Error assignee not specified</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line/>
+      <col/>
+      <file>HT1.task</file>
+      <name>HT1.task</name>
+      <fix/>
+      <msg>Payload not specified</msg>
+   </Fault>
+</Faults>
